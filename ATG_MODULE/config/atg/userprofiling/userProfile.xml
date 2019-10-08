@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!DOCTYPE gsa-template
+        PUBLIC "-//Art Technology Group, Inc.//DTD General SQL Adapter//EN"
+        "http://www.atg.com/dtds/gsa/gsa_1.0.dtd">
+
+<gsa-template xml-combine="append">
+
+    <header>
+        <name>Commerce Related Profile Changes</name>
+        <author>DCS Team</author>
+        <version>$Id: //product/DCS/version/11.3/templates/DCS/config/atg/userprofiling/userProfile.xml#1 $$Change: 1385662 $</version>
+    </header>
+
+    <item-descriptor name="user" default="true" sub-type-property="userType">
+
+        <!-- BCC Commerce tab-->
+        <attribute name="categoryCommercePreferencesPriority" value="35"/>
+        <attribute name="categoryCommercePaymentPriority" value="40"/>
+        <attribute name="categoryCommerceAddressAndPhonePriority" value="45"/>
+        <attribute name="categoryCommerceListsPriority" value="50"/>
+        <attribute name="categoryCommercePromotionsPriority" value="55"/>
+        <attribute name="categoryCommerceContractPriority" value="65"/>
+        <attribute name="categoryPurchasingApprovalsPriority" value="67"/>
+        <attribute name="categoryPurchasingPreferencesPriority" value="70"/>
+        <attribute name="categoryPurchasingCostCentersPriority" value="75"/>
+        <attribute name="categoryTransient" value="80"/>
+        <attribute name="categoryCommerceGeneralPriority" value="90"/>
+        <!-- BCC Advanced tab-->
+        <attribute name="categoryCommerceBehaviorTrackingPriority" value="95"/>
+
+        <table name="dcs_usr_actvpromo" type="multi" id-column-name="id" multi-column-name="sequence_num">
+            <property category-resource="categoryCommercePromotions" name="activePromotions" data-type="list" component-item-type="promotionStatus"
+                      column-name="promo_status_id" cascade="update,delete" display-name-resource="activePromotions">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+        </table>
+
+        <table name="dcs_usr_usedpromo" type="multi" id-column-name="id">
+            <property category-resource="categoryCommercePromotions" name="usedPromotions" data-type="set" component-item-type="promotion"
+                      repository="/atg/commerce/pricing/Promotions" column-name="promotion_id" display-name-resource="usedPromotions">
+                <attribute name="uiwritable" value="false"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+        </table>
+
+        <table name="dcs_user" type="auxiliary" id-column-name="user_id">
+            <property category-resource="categoryCommercePreferences" name="allowPartialShipment" data-type="boolean" default="false"
+                      column-name="allow_partial_ship" display-name-resource="allowPartialShipment">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+            <property category-resource="categoryCommercePreferences" name="defaultCreditCard" item-type="credit-card"
+                      column-name="default_creditcard" display-name-resource="defaultCreditCard" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+            <property category-resource="categoryCommercePreferences" name="expressCheckout" data-type="boolean"
+                      default="false" column-name="express_checkout" display-name-resource="expressCheckout">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+            <property category-resource="categoryCommercePreferences" name="defaultCarrier" data-type="String"
+                      column-name="default_carrier" display-name-resource="defaultCarrier">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+            <property category-resource="categoryCommerceAddressAndPhone" name="daytimeTelephoneNumber" data-type="String"
+                      column-name="daytime_phone_num" display-name-resource="daytimeTelephoneNumber">
+                <attribute name="propertySortPriority" value="40"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+            <property name="myPriceList" category-resource="categoryCommerceGeneral" item-type="priceList"
+                      display-name-resource="myPriceList" column-name="price_list"
+                      repository="/atg/commerce/pricing/priceLists/PriceLists" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+            <property name="mySalePriceList" category-resource="categoryCommerceGeneral" item-type="priceList"
+                      display-name-resource="mySalePriceList" column-name="sale_price_list"
+                      repository="/atg/commerce/pricing/priceLists/PriceLists" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+            <property category-resource="categoryCommerceGeneral" name="myCatalog" item-type="catalog"
+                      display-name-resource="myCatalog" column-name="user_catalog"
+                      repository="/atg/commerce/catalog/ProductCatalog" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+            <!-- B2B properties -->
+            <property category-resource="categoryPurchasingCostCenters" name="defaultCostCenter"
+                      display-name-resource="defaultCostCenter"
+                      column-name="dflt_cost_center" item-type="cost-center" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+
+            <property category-resource="categoryPurchasingApprovals" name="approvalRequired"
+                      display-name-resource="approvalRequired"
+                      column-name="approval_required" data-type="boolean" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+
+            <property category-resource="categoryPurchasingApprovals" name="orderPriceLimit"
+                      display-name-resource="orderPriceLimit"
+                      column-name="order_price_limit" data-type="double" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+        </table>
+
+        <!-- This is a session backed property -->
+        <property category-resource="categoryOrganizations" name="sessionOrganization" item-type="organization" expert="true" hidden="true"
+                  display-name-resource="currentOrganization" property-type="atg.repository.ScopedPropertyDescriptor">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="componentName" value="/atg/repository/SessionPropertyDescriptorData"/>
+            <attribute name="queryableProperty" value="parentOrganization"/>
+            <attribute name="defaultProperty" value="parentOrganization"/>
+            <attribute name="storeNullInScope" value="true"/>
+            <attribute name="storeDefaultInScope" value="false"/>
+        </property>
+
+        <!-- This is a request backed property -->
+        <property category-resource="categoryOrganizations" name="currentOrganization" item-type="organization" expert="true" hidden="true"
+                  display-name-resource="currentOrganization" property-type="atg.repository.ScopedPropertyDescriptor">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="queryableProperty" value="parentOrganization"/>
+            <attribute name="defaultProperty" value="sessionOrganization"/>
+            <attribute name="storeNullInScope" value="true"/>
+        </property>
+
+        <!--  Use the firstNonNull derivation to check the myPriceList column and if it is null then check the org tree for a priceList -->
+        <property category-resource="categoryCommerceContract" name="derivedPriceList"
+                  item-type="priceList" display-name-resource="derivedPriceList"
+                  repository="/atg/commerce/pricing/priceLists/PriceLists">
+            <derivation override-property="myPriceList">
+                <expression>currentOrganization.derivedContract.priceList</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="-5"/>
+        </property>
+
+        <!--This is a request backed property  -->
+        <property category-resource="categoryCommerceGeneral" name="priceList" item-type="priceList" display-name-resource="priceList"
+                  repository="/atg/commerce/pricing/priceLists/PriceLists" property-type="atg.repository.ScopedPropertyDescriptor" hidden="true">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="defaultProperty" value="derivedPriceList"/>
+        </property>
+
+        <!--This is a request backed property  -->
+        <property category-resource="categoryCommerceGeneral" name="salePriceList" item-type="priceList" display-name-resource="salePriceList"
+                  repository="/atg/commerce/pricing/priceLists/PriceLists" property-type="atg.repository.ScopedPropertyDescriptor" hidden="true">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="defaultProperty" value="mySalePriceList"/>
+        </property>
+
+        <!--  Use the firstNonNull derivation to check the myCatalog column and if it is null then check the org tree for a catalog -->
+        <property category-resource="categoryCommerceContract" name="derivedCatalog"
+                  item-type="catalog" display-name-resource="derivedCatalog"
+                  repository="/atg/commerce/catalog/ProductCatalog">
+            <derivation override-property="myCatalog">
+                <expression>currentOrganization.derivedContract.catalog</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="-15"/>
+        </property>
+
+        <!--This is a request backed property  -->
+        <property category-resource="categoryCommerceGeneral" name="catalog" item-type="catalog" display-name-resource="catalog"
+                  repository="/atg/commerce/catalog/ProductCatalog" property-type="atg.repository.ScopedPropertyDescriptor" hidden="true">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="defaultProperty" value="derivedCatalog"/>
+        </property>
+
+        <!-- This transient property may be used for targeting -->
+        <property category-resource="categoryCommerceBehaviorTracking" name="currentLocation" data-type="enumerated" default="unknown" display-name-resource="currentLocation">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="useCodeForValue" value="false"/>
+            <option value="unknown" code="0"/>
+            <option value="home" code="1"/>
+            <option value="store_home" code="2"/>
+            <option value="shopping_cart" code="3"/>
+            <option value="catalog_category" code="4"/>
+            <option value="catalog_product" code="5"/>
+            <option value="catalog_search" code="6"/>
+            <option value="catalog_comparison" code="4000"/>
+            <option value="checkout" code="7"/>
+            <option value="profile" code="8"/>
+        </property>
+
+        <!-- this is the key into private giftlist -->
+        <table name="dcs_user_wishlist" type="auxiliary" id-column-name="user_id">
+            <property category-resource="categoryCommerceLists" name="wishlist" item-type="gift-list" repository="/atg/commerce/gifts/Giftlists"
+                      column-name="giftlist_id" cascade="insert,update,delete" display-name-resource="wishlist">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+        </table>
+
+        <!-- this is the key into user created giftlists -->
+        <table name="dcs_user_giftlist" type="multi" id-column-name="user_id" multi-column-name="sequence_num">
+            <property category-resource="categoryCommerceLists" name="giftlists" data-type="list" component-item-type="gift-list" repository="/atg/commerce/gifts/Giftlists"
+                      column-name="giftlist_id" display-name-resource="giftlists">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+        </table>
+
+        <!-- this is the key into giftlists found for other customers -->
+        <table name="dcs_user_otherlist" type="multi" id-column-name="user_id" multi-column-name="sequence_num">
+            <property category-resource="categoryCommerceLists" name="otherGiftlists" data-type="list" component-item-type="gift-list" repository="/atg/commerce/gifts/Giftlists"
+                      column-name="giftlist_id" display-name-resource="otherGiftlists">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+        </table>
+
+        <property category-resource="categoryCommerceLists" name="giftlistAddresses" data-type="map"
+                  component-item-type="contactInfo" display-name-resource="giftlistAddresses">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <table name="dps_usr_creditcard" type="multi" id-column-name="user_id" multi-column-name="tag">
+            <property category-resource="categoryCommercePayment" name="creditCards" data-type="map"
+                      component-item-type="credit-card" column-name="credit_card_id" cascade="update,delete" display-name-resource="creditCards">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+            </property>
+        </table>
+
+        <table name="dps_user_address" type="auxiliary" id-column-name="id">
+            <property category-resource="categoryCommerceAddressAndPhone" name="billingAddress" item-type="contactInfo" column-name="billing_addr_id"
+                      cascade="update" display-name-resource="billingAddress" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+
+            <property category-resource="categoryCommerceAddressAndPhone" name="shippingAddress" item-type="contactInfo" column-name="shipping_addr_id"
+                      cascade="update" display-name-resource="shippingAddress" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+        </table>
+
+        <table name="dps_other_addr" type="multi" id-column-name="user_id" multi-column-name="tag">
+            <property category-resource="categoryCommerceAddressAndPhone" name="secondaryAddresses" data-type="map"
+                      cascade="update" component-item-type="contactInfo" column-name="address_id" display-name-resource="secondaryAddresses">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+        </table>
+
+        <!-- B2B properties -->
+        <table name="dbc_buyer_approver" type="multi" id-column-name="user_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingApprovals" name="approvers"
+                      display-name-resource="approvers"
+                      column-name="approver_id" data-type="list" component-item-type="user">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="prohibitDuplicates" value="true"/>
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+        </table>
+
+        <table name="dbc_buyer_costctr" type="multi" id-column-name="user_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingCostCenters" name="costCenters"
+                      display-name-resource="costCenters"
+                      column-name="cost_center_id" data-type="list" component-item-type="cost-center">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="prohibitDuplicates" value="true"/>
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+        </table>
+
+        <table name="dbc_buyer_prefvndr" type="multi" id-column-name="user_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingPreferences" name="preferredVendors"
+                      display-name-resource="preferredVendors"
+                      column-name="vendor" data-type="list" component-data-type="string">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+        </table>
+
+        <table name="dbc_buyer_plist" type="multi" id-column-name="user_id" multi-column-name="tag">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingPreferences" name="purchaseLists"
+                      display-name-resource="purchaseLists"
+                      column-name="list_id" data-type="list" component-item-type="gift-list"
+                      repository="/atg/commerce/gifts/Giftlists" >
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="0"/>
+            </property>
+        </table>
+
+        <table name="dcs_user_favstores" type="multi" id-column-name="user_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <property category-resource="categoryCommercePreferences" name="favoriteStores"
+                      display-name-resource="favoriteStores"
+                      column-name="location_id" data-type="list" component-item-type="location" repository="/atg/commerce/locations/LocationRepository">
+                <attribute name="propertySortPriority" value="30"/>
+                <attribute name="prohibitDuplicates" value="true"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+        </table>
+
+        <!-- Writable scalar derived properties that can inherit from the user's organization -->
+        <property category-resource="categoryCommercePreferences" name="derivedDefaultCreditCard" item-type="credit-card"
+                  display-name-resource="derivedDefaultCreditCard">
+            <derivation override-property="defaultCreditCard">
+                <expression>currentOrganization.derivedDefaultCreditCard</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryCommerceAddressAndPhone" name="derivedBillingAddress" item-type="contactInfo"
+                  display-name-resource="derivedBillingAddress">
+            <derivation override-property="billingAddress">
+                <expression>currentOrganization.derivedBillingAddress</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+            <attribute name="propertySortPriority" value="10"/>
+        </property>
+
+        <property category-resource="categoryCommerceAddressAndPhone" name="derivedShippingAddress" item-type="contactInfo"
+                  display-name-resource="derivedShippingAddress">
+            <derivation override-property="shippingAddress">
+                <expression>currentOrganization.derivedShippingAddress</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+            <attribute name="propertySortPriority" value="20"/>
+        </property>
+
+        <property name="derivedDefaultCostCenter" item-type="cost-center" display-name-resource="derivedDefaultCostCenter"
+                  category-resource="categoryPurchasingCostCenters">
+            <derivation override-property="defaultCostCenter">
+                <expression>currentOrganization.derivedDefaultCostCenter</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="10"/>
+        </property>
+
+        <property name="allCostCenters" component-item-type="cost-center" data-type="list" display-name-resource="allCostCenters"
+                  category-resource="categoryPurchasingCostCenters" expert="true">
+            <derivation method="union">
+                <expression>costCenters</expression>
+                <expression>currentOrganization.allCostCenters</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="20"/>
+            <attribute name="prohibitDuplicates" value="true"/>
+        </property>
+
+        <property name="allPreferredVendors" component-data-type="string" data-type="list" display-name-resource="allPreferredVendors"
+                  category-resource="categoryPurchasingPreferences" expert="true">
+            <derivation method="union">
+                <expression>preferredVendors</expression>
+                <expression>currentOrganization.allPreferredVendors</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="20"/>
+        </property>
+
+        <property name="derivedApprovalRequired" category-resource="categoryPurchasingApprovals"
+                  display-name-resource="derivedApprovalRequired" data-type="boolean" default="false">
+            <derivation override-property="approvalRequired">
+                <expression>currentOrganization.derivedApprovalRequired</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="10"/>
+        </property>
+
+        <property name="derivedOrderPriceLimit" data-type="double" display-name-resource="derivedOrderPriceLimit"
+                  category-resource="categoryPurchasingApprovals">
+            <derivation override-property="orderPriceLimit">
+                <expression>currentOrganization.derivedOrderPriceLimit</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="20"/>
+        </property>
+
+        <property name="allApprovers" data-type="list" component-item-type="user" display-name-resource="allApprovers"
+                  category-resource="categoryPurchasingApprovals" expert="true">
+            <derivation method="union">
+                <expression>approvers</expression>
+                <expression>currentOrganization.allApprovers</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="30"/>
+            <attribute name="prohibitDuplicates" value="true"/>
+        </property>
+
+        <property name="allSecondaryAddresses" component-item-type="contactInfo" data-type="map"
+                  category-resource="categoryCommerceAddressAndPhone" display-name-resource="allSecondaryAddresses" expert="true">
+            <derivation method="union">
+                <expression>secondaryAddresses</expression>
+                <expression>currentOrganization.allSecondaryAddresses</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="30"/>
+            <attribute name="keepMapValueOnKeyCollision" value="true"/>
+        </property>
+
+        <property name="allCreditCards" category-resource="categoryCommercePayment"
+                  display-name-resource="allCreditCards" data-type="map" component-item-type="credit-card" expert="true">
+            <derivation method="union">
+                <expression>creditCards</expression>
+                <expression>currentOrganization.allCreditCards</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="-4"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources" />
+            <attribute name="keepMapValueOnKeyCollision" value="true"/>
+        </property>
+
+        <!-- Contract information -->
+        <property name="contract" category-resource="categoryCommerceContract"
+                  item-type="contract" display-name-resource="contract"
+                  repository="/atg/commerce/contracts/Contracts"
+                  writable="false">
+            <derivation>
+                <expression>currentOrganization.derivedContract</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="-30"/>
+        </property>
+
+    </item-descriptor>
+
+    <!--
+    *************************************************************
+    CreditCard
+    *************************************************************
+    -->
+
+    <item-descriptor name="credit-card" display-name-resource="itemDescriptorCreditCard">
+        <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+        <table name="dps_credit_card" type="primary" id-column-name="id">
+            <property name="id" writable="false" display-name-resource="id">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+            <property name="creditCardNumber" column-name="credit_card_number" data-type="string" category-resource="categoryBasics" display-name-resource="creditCardNumber">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="20"/>
+                <attribute name="secureLogging" value="true"/>
+            </property>
+            <property name="creditCardType" column-name="credit_card_type" data-type="string" category-resource="categoryBasics" display-name-resource="creditCardType">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+            <property name="expirationMonth" column-name="expiration_month" data-type="string" category-resource="categoryBasics" display-name-resource="expirationMonth">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+            <property name="expirationDayOfMonth" column-name="exp_day_of_month" data-type="string" category-resource="categoryBasics" display-name-resource="expirationDayOfMonth">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="50"/>
+            </property>
+            <property name="expirationYear" column-name="expiration_year" data-type="string" category-resource="categoryBasics" display-name-resource="expirationYear">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="60"/>
+            </property>
+            <!-- This is a key into the addresses map -->
+            <property name="billingAddress" item-type="contactInfo" column-name="billing_addr" cascade="update" category-resource="categoryBasics" display-name-resource="billingAddress">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="70"/>
+            </property>
+        </table>
+    </item-descriptor>
+
+    <item-descriptor name="promotionStatus" display-name-resource="itemDescriptorPromotionStatus" display-property="promotion">
+        <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+        <table name="dcs_usr_promostat" type="primary" id-column-name="status_id">
+            <property name="profileId" data-type="string" column-name="profile_id" required="true" display-name-resource="profileId">
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+            <property name="promotion" item-type="promotion" repository="/atg/commerce/pricing/Promotions" column-name="promotion" required="true" display-name-resource="promotion">
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+            <property name="numUses" data-type="int" column-name="num_uses" display-name-resource="numUses">
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+            <property name="expirationDate" data-type="timestamp" column-name="expirationDate" display-name-resource="expirationDate">
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+            <property name="grantedDate" data-type="timestamp" column-name="granted_date" display-name-resource="grantedDate">
+                <attribute name="propertySortPriority" value="50"/>
+            </property>
+        </table>
+
+        <table name="dcs_promo_st_cpn" type="multi" id-column-name="status_id" multi-column-name="sequence_num">
+            <property name="coupons" column-name="coupon_id" component-item-type="PromotionClaimable" repository="/atg/commerce/claimable/ClaimableRepository"
+                      data-type="list" category-resource="categoryBasics" display-name-resource="itemDescriptorPromotionClaimable">
+                <attribute name="resourceBundle" value="atg.commerce.ClaimableRepositoryTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+        </table>
+    </item-descriptor>
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- Organization item descriptor for organizational models       -->
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <item-descriptor name="organization">
+
+        <attribute name="categoryBasicsPriority" value="10"/>
+        <attribute name="categoryCommercePaymentPriority" value="65"/>
+        <attribute name="categoryCommerceAddressAndPhonePriority" value="70"/>
+        <attribute name="categoryPurchasingApprovalsPriority" value="75"/>
+        <attribute name="categoryPurchasingPreferencesPriority" value="80"/>
+        <attribute name="categoryPurchasingCostCentersPriority" value="85"/>
+        <attribute name="categoryGeneralPriority" value="90"/>
+
+        <table name="dbc_organization" type="auxiliary" id-column-name="id">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryBasics" name="customerType" data-type="enumerated"
+                      column-name="cust_type" display-name-resource="customerType" hidden="true">
+                <attribute name="useCodeForValue" value="false"/>
+                <option resource="customerTypeStandard" code="1"/>
+                <option resource="customerTypePreferred" code="2"/>
+                <option resource="customerTypeEnterprise" code="3"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+
+            <property category-resource="categoryBasics" name="type" column-name="type" data-type="enumerated"
+                      display-name-resource="type">
+                <attribute name="useCodeForValue" value="false"/>
+                <option resource="typeNone" code="0"/>
+                <option resource="typeCompany" code="1"/>
+                <option resource="typeDivision" code="2"/>
+                <option resource="typeDepartment" code="3"/>
+                <option resource="typeGroup" code="4"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+            <property category-resource="categoryBasics" name="dunsNumber" column-name="duns_number" data-type="string"
+                      display-name-resource="dunsNumber">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="50"/>
+            </property>
+
+            <property category-resource="categoryCommerceAddressAndPhone" name="billingAddress"
+                      display-name-resource="billingAddress" column-name="dflt_billing_addr"
+                      item-type="contactInfo" hidden="true">
+                <attribute name="propertySortPriority" value="10"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+            <property category-resource="categoryCommerceAddressAndPhone" name="shippingAddress"
+                      display-name-resource="shippingAddress"
+                      column-name="dflt_shipping_addr" item-type="contactInfo" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+
+            <property category-resource="categoryCommercePayment" name="defaultCreditCard"
+                      display-name-resource="defaultCreditCard"
+                      column-name="dflt_payment_type" item-type="credit-card" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+
+            <property category-resource="categoryPurchasingCostCenters" name="defaultCostCenter"
+                      display-name-resource="defaultCostCenter"
+                      column-name="dflt_cost_center" item-type="cost-center" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+
+            <property category-resource="categoryPurchasingApprovals" name="approvalRequired"
+                      display-name-resource="approvalRequired"
+                      column-name="approval_required" data-type="boolean"
+                      hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+
+            <property category-resource="categoryPurchasingApprovals" name="orderPriceLimit"
+                      display-name-resource="orderPriceLimit"
+                      column-name="order_price_limit" data-type="double" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+
+            <property category-resource="categoryBasics" name="contract"
+                      display-name-resource="contract" column-name="contract_id"
+                      item-type="contract" repository="/atg/commerce/contracts/Contracts" hidden="true">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="65"/>
+            </property>
+
+        </table>
+
+        <table name="dbc_org_contact" type="multi" id-column-name="org_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryBasics" name="contacts"
+                      display-name-resource="contacts"
+                      column-name="contact_id" data-type="list" component-item-type="contactInfo">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="70"/>
+            </property>
+        </table>
+
+        <table name="dbc_org_approver" type="multi" id-column-name="org_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingApprovals" name="approvers"
+                      display-name-resource="approvers"
+                      column-name="approver_id" data-type="list" component-item-type="user">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="prohibitDuplicates" value="true"/>
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+
+        </table>
+
+        <table name="dcs_org_address" type="multi" id-column-name="org_id" multi-column-name="tag">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryCommerceAddressAndPhone" name="secondaryAddresses"
+                      display-name-resource="secondaryAddresses"
+                      column-name="addr_id" data-type="map" component-item-type="contactInfo">
+                <attribute name="propertySortPriority" value="60"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+        </table>
+
+        <table name="dbc_org_payment" type="multi" id-column-name="org_id" multi-column-name="tag">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryCommercePayment" name="creditCards"
+                      display-name-resource="creditCards"
+                      column-name="payment_id" data-type="map" component-item-type="credit-card">
+                <attribute name="propertySortPriority" value="70"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            </property>
+
+        </table>
+
+        <table name="dbc_org_costctr" type="multi" id-column-name="org_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingCostCenters" name="costCenters"
+                      display-name-resource="costCenters"
+                      column-name="cost_center" data-type="list" component-item-type="cost-center">
+                <attribute name="propertySortPriority" value="30"/>
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="prohibitDuplicates" value="true"/>
+            </property>
+
+        </table>
+
+        <table name="dbc_org_prefvndr" type="multi" id-column-name="org_id" multi-column-name="seq">
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+            <property category-resource="categoryPurchasingPreferences" name="preferredVendors"
+                      display-name-resource="preferredVendors"
+                      column-name="vendor" data-type="list" component-data-type="string">
+                <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+
+        </table>
+
+        <!-- DerivedPropertyDescriptor properties -->
+        <property name="derivedBillingAddress" item-type="contactInfo"
+                  display-name-resource="derivedBillingAddress" category-resource="categoryCommerceAddressAndPhone">
+            <derivation override-property="billingAddress">
+                <expression>parentOrganization.derivedBillingAddress</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="10"/>
+        </property>
+
+        <property category-resource="categoryCommerceAddressAndPhone" name="derivedShippingAddress"
+                  display-name-resource="derivedShippingAddress" item-type="contactInfo">
+            <derivation override-property="shippingAddress">
+                <expression>parentOrganization.derivedShippingAddress</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="20"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryCommercePayment" name="derivedDefaultCreditCard"
+                  display-name-resource="derivedDefaultCreditCard"  item-type="credit-card">
+            <derivation override-property="defaultCreditCard">
+                <expression>parentOrganization.derivedDefaultCreditCard</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="10"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryPurchasingCostCenters" name="derivedDefaultCostCenter"
+                  display-name-resource="derivedDefaultCostCenter" item-type="cost-center">
+            <derivation override-property="defaultCostCenter">
+                <expression>parentOrganization.derivedDefaultCostCenter</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="10"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryPurchasingApprovals" name="derivedApprovalRequired"
+                  display-name-resource="derivedApprovalRequired" data-type="boolean" default="true">
+            <derivation override-property="approvalRequired">
+                <expression>parentOrganization.derivedApprovalRequired</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="10"/>
+        </property>
+
+        <property category-resource="categoryPurchasingApprovals" name="derivedOrderPriceLimit"
+                  display-name-resource="derivedOrderPriceLimit" data-type="double">
+            <derivation override-property="orderPriceLimit">
+                <expression>parentOrganization.derivedOrderPriceLimit</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="20"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryBasics" name="derivedContract"
+                  display-name-resource="derivedContract" item-type="contract" repository="/atg/commerce/contracts/Contracts">
+            <derivation override-property="contract">
+                <expression>parentOrganization.derivedContract</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="60"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryPurchasingApprovals" name="allApprovers"
+                  display-name-resource="allApprovers" data-type="list" component-item-type="user" expert="true">
+            <derivation method="union">
+                <expression>approvers</expression>
+                <expression>parentOrganization.allApprovers</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="30"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="prohibitDuplicates" value="true"/>
+        </property>
+
+        <property category-resource="categoryCommerceAddressAndPhone" name="allSecondaryAddresses"
+                  display-name-resource="allSecondaryAddresses" data-type="map" component-item-type="contactInfo" expert="true">
+            <derivation method="union">
+                <expression>secondaryAddresses</expression>
+                <expression>parentOrganization.allSecondaryAddresses</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="30"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="keepMapValueOnKeyCollision" value="true"/>
+        </property>
+
+        <property category-resource="categoryCommercePayment" name="allCreditCards"
+                  display-name-resource="allCreditCards" data-type="map" component-item-type="credit-card" expert="true">
+            <derivation method="union">
+                <expression>creditCards</expression>
+                <expression>parentOrganization.allCreditCards</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="20"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="keepMapValueOnKeyCollision" value="true"/>
+        </property>
+
+        <property category-resource="categoryPurchasingCostCenters" name="allCostCenters"
+                  display-name-resource="allCostCenters" data-type="list" component-item-type="cost-center" expert="true">
+            <derivation method="union">
+                <expression>costCenters</expression>
+                <expression>parentOrganization.allCostCenters</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="20"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="preventListDuplicates" value="true"/>
+        </property>
+
+        <property category-resource="categoryPurchasingPreferences" name="allPreferredVendors"
+                  display-name-resource="allPreferredVendors" data-type="list" component-data-type="string" expert="true">
+            <derivation method="union">
+                <expression>preferredVendors</expression>
+                <expression>parentOrganization.allPreferredVendors</expression>
+            </derivation>
+            <attribute name="propertySortPriority" value="-1"/>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+        </property>
+
+        <property category-resource="categoryBasics" name="derivedCustomerType" data-type="enumerated"
+                  display-name-resource="derivedCustomerType">
+            <derivation override-property="customerType">
+                <expression>parentOrganization.derivedCustomerType</expression>
+            </derivation>
+            <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+            <attribute name="propertySortPriority" value="30"/>
+        </property>
+
+    </item-descriptor>
+
+    <!--
+    *************************************************************
+    CostCenters
+    *************************************************************
+    -->
+    <item-descriptor name="cost-center" item-cache-size="1000" query-cache-size="1000" display-name-resource="itemDescriptorCostCenter" display-property="description">
+        <attribute name="resourceBundle" value="atg.commerce.UserProfileTemplateResources"/>
+
+        <table name="dbc_cost_center" type="primary" id-column-name="id">
+            <property name="id" writable="false" display-name-resource="id">
+                <attribute name="propertySortPriority" value="20"/>
+            </property>
+            <property name="owner" data-type="string" column-name="user_id" display-name-resource="owner">
+                <attribute name="propertySortPriority" value="30"/>
+            </property>
+            <property name="identifier" data-type="string" column-name="identifier" display-name-resource="identifier" required="true">
+                <attribute name="propertySortPriority" value="10"/>
+            </property>
+            <property name="description" data-type="string" column-name="description" display-name-resource="description">
+                <attribute name="propertySortPriority" value="40"/>
+            </property>
+        </table>
+    </item-descriptor>
+
+</gsa-template>
+        <!-- @version $Id: //product/DCS/version/11.3/templates/DCS/config/atg/userprofiling/userProfile.xml#1 $$Change: 1385662 $ -->

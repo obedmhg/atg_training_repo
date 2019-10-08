@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ef7528d-7f8b-4c09-b00a-caeba02070cb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/MainJMurillo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,23 +18,48 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="44" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainJMurillo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/MainJMurillo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
               <folding>
-                <element signature="e#114#115#0" expanded="true" />
+                <element signature="e#72#73#0" expanded="true" />
+                <element signature="e#122#123#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainJMurillo.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/MainJMurillo.java">
+      <file leaf-file-name="customCatalog.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/catalog/custom/customCatalog.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="44" lean-forward="true" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
-              <folding>
-                <element signature="e#122#123#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="38726">
+              <caret line="2278" lean-forward="true" selection-start-line="2278" selection-end-line="2278" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orderrepository.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/order/orderrepository.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="837">
+              <caret line="2209" lean-forward="true" selection-start-line="2209" selection-end-line="2209" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userProfile.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/userprofiling/userProfile.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="837">
+              <caret line="826" lean-forward="true" selection-start-line="826" selection-end-line="826" />
             </state>
           </provider>
         </entry>
@@ -49,6 +74,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/MainJMurillo.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/catalog/custom/customCatalog.xml" />
+        <option value="$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/order/orderrepository.xml" />
+        <option value="$PROJECT_DIR$/ATG_MODULE/config/atg/userprofiling/userProfile.xml" />
       </list>
     </option>
   </component>
@@ -75,7 +103,64 @@
             <path>
               <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
               <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+              <item name="commerce" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+              <item name="commerce" type="462c0819:PsiDirectoryNode" />
+              <item name="catalog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+              <item name="commerce" type="462c0819:PsiDirectoryNode" />
+              <item name="catalog" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+              <item name="commerce" type="462c0819:PsiDirectoryNode" />
+              <item name="order" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="atg_training_repo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="atg_training_repo" type="462c0819:PsiDirectoryNode" />
+              <item name="ATG_MODULE" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="atg" type="462c0819:PsiDirectoryNode" />
+              <item name="userprofiling" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -182,21 +267,58 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="44" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
-          <folding>
-            <element signature="e#114#115#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainJMurillo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="44" lean-forward="true" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+        <state relative-caret-position="51">
+          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
           <folding>
+            <element signature="e#72#73#0" expanded="true" />
             <element signature="e#122#123#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainJMurillo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#72#73#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/catalog/custom/customCatalog.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38726">
+          <caret line="2278" lean-forward="true" selection-start-line="2278" selection-end-line="2278" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/commerce/order/orderrepository.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="837">
+          <caret line="2209" lean-forward="true" selection-start-line="2209" selection-end-line="2209" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ATG_MODULE/config/atg/userprofiling/userProfile.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="837">
+          <caret line="826" lean-forward="true" selection-start-line="826" selection-end-line="826" />
         </state>
       </provider>
     </entry>

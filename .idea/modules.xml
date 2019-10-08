@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ATG_MODULE/ATG_MODULE.iml" filepath="$PROJECT_DIR$/ATG_MODULE/ATG_MODULE.iml" />
       <module fileurl="file://$PROJECT_DIR$/atg_training_repo.iml" filepath="$PROJECT_DIR$/atg_training_repo.iml" />
     </modules>
   </component>
